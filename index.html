@@ -3,10 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./src/styles.css" />
     <title>Tic Tac Toe</title>
   </head>
-  <body>
+  <body class="page">
     <main class="game">
       <section class="game__field field">
         <div class="field__cell"></div>
@@ -19,8 +25,8 @@
         <div class="field__cell"></div>
         <div class="field__cell"></div>
       </section>
-      <p class="game__score button"></p>
-      <p class="game__status button"></p>
+      <p class="game__score button">Result</p>
+      <p class="game__status button">Tic Tac Toe</p>
     </main>
     <script type="module" src="./src/index.js"></script>
   </body>

@@ -1,0 +1,70 @@
+:root {
+  --field-bg: #f5f5f5;
+  --cell-bg: #e4e4e4;
+  --text-color: #212121;
+  --br-s: 16px;
+  --br-m: 37px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+p[class] {
+  margin-block: 0;
+}
+
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("./assets/background.jpg") no-repeat center center;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 33px;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: repeat(3, 144px);
+  grid-template-rows: repeat(3, 144px);
+  gap: 25px;
+  background-color: var(--field-bg);
+  border-radius: var(--br-m);
+  padding: 49px;
+}
+
+.field__cell {
+  cursor: pointer;
+  background-color: var(--cell-bg);
+  border-radius: var(--br-s);
+  box-shadow: 10px 10px 0px var(--text-color);
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--text-color);
+  background-color: var(--field-bg);
+  border-radius: var(--br-s);
+  height: 104px;
+}
