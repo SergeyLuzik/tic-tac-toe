@@ -4,6 +4,8 @@
   --text-color: #212121;
   --br-s: 16px;
   --br-m: 37px;
+  --animation-time: 0.4s;
+  --animation-func: ease-in-out;
 }
 
 *,
@@ -53,9 +55,47 @@ body {
 
 .field__cell {
   cursor: pointer;
-  background-color: var(--cell-bg);
   border-radius: var(--br-s);
   box-shadow: 10px 10px 0px var(--text-color);
+  background-color: var(--cell-bg);
+  transition: box-shadow var(--animation-time) var(--animation-func);
+}
+
+.field__cell:not(.field__cell--selected):hover {
+  box-shadow: 5px 5px 0px var(--text-color);
+}
+
+.field__cell::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 110px 110px;
+  opacity: 0;
+  transition: opacity var(--animation-time) var(--animation-func);
+}
+
+.field__cell:not(.field__cell--selected):hover::after {
+  opacity: 0.15;
+}
+
+.field__cell--selected {
+  cursor: default;
+  box-shadow: 5px 5px 0px var(--text-color);
+}
+
+.field__cell--selected::after {
+  opacity: 1;
+}
+
+.field__cell--x::after {
+  background-image: url("./assets/x.svg");
+}
+
+.field__cell--o::after {
+  background-image: url("./assets/o.svg");
 }
 
 .button {
