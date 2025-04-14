@@ -16,6 +16,7 @@ const WIN_MASKS = [
 
 const getInitialState = () => ({
   currentSide: "x",
+  endGame: false,
   x: { cells: [], mask: 0 },
   o: { cells: [], mask: 0 },
 });
@@ -69,6 +70,7 @@ const changeSide = () => {
 };
 
 const endGame = () => {
+  state.endGame = true;
   // подменить текст на кнопку restart
   gameName.classList.add("hide");
   restartButton.classList.remove("hide");
@@ -80,7 +82,7 @@ const handleFieldClick = (event) => {
   if (event.target !== event.currentTarget) {
     const cell = event.target;
     //  если ячейка не выбрана, то
-    if (!cell.classList.contains("field__cell--selected")) {
+    if (!cell.classList.contains("field__cell--selected") && !state.endGame) {
       //  добавить к ячейке модификатор selected
       cell.classList.add("field__cell--selected");
       // добавить id в соответствующий массив
