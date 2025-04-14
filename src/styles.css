@@ -2,6 +2,7 @@
   --field-bg: #f5f5f5;
   --cell-bg: #e4e4e4;
   --text-color: #212121;
+  --white-text-color: #eaeaea;
   --br-s: 16px;
   --br-m: 37px;
   --animation-time: 0.4s;
@@ -16,6 +17,14 @@
 
 p[class] {
   margin-block: 0;
+}
+
+button[class] {
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-weight: inherit;
 }
 
 html,
@@ -107,4 +116,24 @@ body {
   background-color: var(--field-bg);
   border-radius: var(--br-s);
   height: 104px;
+}
+
+.button--restart {
+  gap: 15px;
+  background-color: var(--text-color);
+  color: var(--white-text-color);
+}
+
+.button--restart::before {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 70px;
+  background-image: url("./assets/restart.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hide {
+  display: none;
 }
