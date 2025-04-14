@@ -27,6 +27,8 @@ const init = () => {
   for (const cell of gameField.children) {
     cell.classList.add("field__cell--x");
   }
+
+  gameResult.textContent = `${state.currentSide.toUpperCase()}'s turn`;
 };
 
 const restart = () => {
@@ -66,7 +68,7 @@ const changeSide = () => {
 
 const endGame = () => {
   // подменить текст на кнопку restart
-  gameResult.classList.add("hide");
+  gameName.classList.add("hide");
   restartButton.classList.remove("hide");
 };
 
