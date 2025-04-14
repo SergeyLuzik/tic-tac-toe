@@ -34,11 +34,13 @@ const init = () => {
 const restart = () => {
   state = getInitialState();
   window.state = getInitialState();
-  console.log("state", state);
 
   for (const cell of gameField.children) {
     cell.className = "field__cell";
   }
+  gameName.textContent = "Tic Tac Toe";
+  gameName.classList.remove("hide");
+  restartButton.classList.add("hide");
 
   init();
 };
