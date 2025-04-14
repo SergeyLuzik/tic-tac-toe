@@ -3,23 +3,24 @@ const gameResult = document.querySelector(".game__result");
 const gameName = document.querySelector(".game__name");
 const restartButton = document.querySelector(".game__restart");
 
-const CELL_COORDINATES = {
-  1: [0, 0],
-  2: [0, 1],
-  3: [0, 2],
-  4: [1, 0],
-  5: [1, 1],
-  6: [1, 2],
-  7: [2, 0],
-  8: [2, 1],
-  9: [2, 2],
-};
+const WIN_MASKS = [
+  0b111000000, // нижняя строка
+  0b000111000, // средняя строка
+  0b000000111, // верхняя строка
+  0b100100100, // правая колонка
+  0b010010010, // средняя колонка
+  0b001001001, // левая колонка
+  0b100010001, // диагональ \
+  0b001010100, // диагональ /
+];
 
-let state = {
+const getInitialState = () => ({
   currentSide: "x",
-  x: [],
-  o: [],
-};
+  x: { cells: [], mask: 0 },
+  o: { cells: [], mask: 0 },
+});
+
+let state = getInitialState();
 
 const init = () => {
   //  добавить всем детям класс field__cell--x
@@ -29,11 +30,9 @@ const init = () => {
 };
 
 const restart = () => {
-  state = {
-    ifXturn: true,
-    x: [],
-    o: [],
-  };
+  state = getInitialState();
+  window.state = getInitialState();
+  console.log("state", state);
 
   for (const cell of gameField.children) {
     cell.className = "field__cell";
@@ -42,24 +41,14 @@ const restart = () => {
   init();
 };
 
-const checkWin = (cells) => {
-  if (cells[0][0] === cells[1][0] && cells[1][0] === cells[2][0]) {
-    return true;
-  } else if (cells[0][1] === cells[1][1] && cells[1][1] === cells[2][1]) {
-    return true;
-  } else if (
-    cells[0][0] === cells[0][1] &&
-    cells[1][0] === cells[1][1] &&
-    cells[2][0] === cells[2][1]
-  ) {
-    return true;
-  } else if (
-    cells[0][0] + cells[0][1] === cells[1][0] + cells[1][1] &&
-    cells[1][0] + cells[1][1] === cells[2][0] + cells[2][1]
-  ) {
-    return true;
-  }
-};
+const checkWin = (currentSideMask) =>
+  WIN_MASKS.some((winMask) => {
+    console.log("winMask", winMask, "currentSideMask", currentSideMask);
+    const result = winMask & currentSideMask;
+    console.log("result", result);
+
+    return result === winMask;
+  });
 
 const changeSide = () => {
   const currentSide = state.currentSide;
@@ -75,6 +64,12 @@ const changeSide = () => {
   gameResult.textContent = `${state.currentSide.toUpperCase()}'s turn`;
 };
 
+const endGame = () => {
+  // подменить текст на кнопку restart
+  gameResult.classList.add("hide");
+  restartButton.classList.remove("hide");
+};
+
 const handleFieldClick = (event) => {
   // click на поле
   //  если это не само поле, то ячейка
@@ -84,30 +79,30 @@ const handleFieldClick = (event) => {
     if (!cell.classList.contains("field__cell--selected")) {
       //  добавить к ячейке модификатор selected
       cell.classList.add("field__cell--selected");
-      //   получить координаты ячейки
-      const coordinates = CELL_COORDINATES[cell.dataset.id - 1]; //todo переписать на функцию
-      // добавить координаты в соответствующий массив
-      let currentSideCells = state[state.currentSide];
+      // добавить id в соответствующий массив
+      const cellIndex = cell.dataset.id - 1;
+      let currentSideState = state[state.currentSide];
       // проверить длинну массива после добавления
-      const newCurrentSideCellsLength = currentSideCells.push(coordinates);
-      // если длинна массива = 3, то
-      if (newCurrentSideCellsLength === 3) {
+      const newCurrentSideCellsLength = currentSideState.cells.push(cellIndex);
+      currentSideState.mask |= 1 << cellIndex;
+
+      // если длинна массива >= 3, то
+      if (newCurrentSideCellsLength >= 3) {
         // проверить на победу
         // если победа, то
-        if (checkWin(currentSideCells)) {
+        if (checkWin(currentSideState.mask)) {
           // вывести в статус победителя
           gameResult.textContent = `${state.currentSide.toUpperCase()} Win!!!`;
-          // подменить текст на кнопку restart
-          gameResult.classList.add("hide");
-          restartButton.onclick = restart;
-          restartButton.classList.remove("hide");
+          endGame();
         } else {
-          // если нет победы, то
-          // проверить на ничью
-          // если ничья, то
-          // вывести в статус ничью
-          // подменить текст на кнопку restart
-          changeSide();
+          // проверить что есть свободные клетки
+          if (state.x.cells.length + state.o.cells.length < 9) {
+            changeSide();
+          } else {
+            // вывести в статус ничью
+            gameResult.textContent = "Draw!!!";
+            endGame();
+          }
         }
       } else {
         changeSide();
@@ -118,3 +113,6 @@ const handleFieldClick = (event) => {
 
 init();
 gameField.onclick = handleFieldClick;
+restartButton.onclick = restart;
+
+window.state = state;
