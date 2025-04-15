@@ -3,17 +3,19 @@ const gameResult = document.querySelector(".game__result");
 const gameName = document.querySelector(".game__name");
 const restartButton = document.querySelector(".game__restart");
 
+// Битовые маски соответствующие выигрышным комбинациям
 const WIN_MASKS = [
-  0b111000000, // нижняя строка
-  0b000111000, // средняя строка
   0b000000111, // верхняя строка
-  0b100100100, // правая колонка
-  0b010010010, // средняя колонка
+  0b000111000, // средняя строка
+  0b111000000, // нижняя строка
   0b001001001, // левая колонка
+  0b010010010, // средняя колонка
+  0b100100100, // правая колонка
   0b100010001, // диагональ \
   0b001010100, // диагональ /
 ];
 
+// Функция возвращает новый объект состояния игры, чтобы избежать копирования по ссылке
 const getInitialState = () => ({
   currentSide: "x",
   endGame: false,
@@ -48,13 +50,7 @@ const restart = () => {
 };
 
 const checkWin = (currentSideMask) =>
-  WIN_MASKS.some((winMask) => {
-    console.log("winMask", winMask, "currentSideMask", currentSideMask);
-    const result = winMask & currentSideMask;
-    console.log("result", result);
-
-    return result === winMask;
-  });
+  WIN_MASKS.some((winMask) => (winMask & currentSideMask) === winMask);
 
 const changeSide = () => {
   const currentSide = state.currentSide;
