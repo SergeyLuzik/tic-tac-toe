@@ -28,8 +28,6 @@ const init = () => {
   for (const cell of gameField.children) {
     cell.classList.add("field__cell--x");
   }
-
-  gameResult.textContent = `${state.currentSide.toUpperCase()}'s turn`;
 };
 
 const restart = () => {
@@ -66,7 +64,6 @@ const changeSide = () => {
     cell.classList.add(`field__cell--${newSide}`);
   }
   state.currentSide = newSide;
-  gameResult.textContent = `${state.currentSide.toUpperCase()}'s turn`;
 };
 
 const endGame = () => {
