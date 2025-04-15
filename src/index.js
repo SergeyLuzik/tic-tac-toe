@@ -32,7 +32,6 @@ const init = () => {
 
 const restart = () => {
   state = getInitialState();
-  window.state = getInitialState();
 
   for (const cell of gameField.children) {
     cell.className = "field__cell";
@@ -82,15 +81,16 @@ const handleFieldClick = (event) => {
   //  если это не само поле, то ячейка
   if (event.target !== event.currentTarget) {
     const cell = event.target;
-    //  если ячейка не выбрана, то
+    //  если ячейка не выбрана и игра не окончена, то
     if (!cell.classList.contains("field__cell--selected") && !state.endGame) {
       //  добавить к ячейке модификатор selected
       cell.classList.add("field__cell--selected");
-      // добавить id в соответствующий массив
       const cellIndex = cell.dataset.id - 1;
       let currentSideState = state[state.currentSide];
-      // проверить длинну массива после добавления
+      // добавить id в соответствующий массив
+      // записать длину массива после добавления
       const newCurrentSideCellsLength = currentSideState.cells.push(cellIndex);
+      // добавить маску
       currentSideState.mask |= 1 << cellIndex;
 
       // если длинна массива >= 3, то
@@ -121,5 +121,3 @@ const handleFieldClick = (event) => {
 init();
 gameField.onclick = handleFieldClick;
 restartButton.onclick = restart;
-
-window.state = state;
