@@ -37,6 +37,7 @@ const restart = () => {
   for (const cell of gameField.children) {
     cell.className = "field__cell";
   }
+  gameResult.textContent = "Result";
   gameName.textContent = "Tic Tac Toe";
   gameName.classList.remove("hide");
   restartButton.classList.add("hide");
