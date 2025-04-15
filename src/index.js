@@ -42,7 +42,10 @@ const restart = () => {
   gameName.classList.remove("hide");
   restartButton.classList.add("hide");
 
-  init();
+  // задержка для того чтобы успела отработать анимация отжатия полей
+  setTimeout(() => {
+    init();
+  }, 500);
 };
 
 const checkWin = (currentSideMask) =>
