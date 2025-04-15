@@ -99,7 +99,7 @@ const handleFieldClick = (event) => {
           endGame();
         } else {
           // проверить что есть свободные клетки
-          if (state.x.cells.length + state.o.cells.length < 9) {
+          if ((state.x.mask | state.o.mask) !== 0b111111111) {
             changeSide();
           } else {
             // вывести в статус ничью
